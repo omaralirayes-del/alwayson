@@ -16,8 +16,8 @@ android {
     defaultConfig {
         applicationId = "com.example.online_app"
         
-        // يضمن التشغيل على 99% من الهواتف (Android 5.0+)
-        minSdk = 21
+        // استخدام خاصية flutter الافتراضية المستقرة
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
 
         versionCode = flutter.versionCode
@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         release {
-            // تعطيل R8 المباشر لتفادي أخطاء Missing classes
+            // إيقاف R8 لمنع أخطاء Missing classes
             isMinifyEnabled = false
             isShrinkResources = false
 
