@@ -1,4 +1,4 @@
-name: Build Lightest Universal APK
+name: Build Light ARM64 APK
 
 on:
   push:
@@ -27,11 +27,11 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build Universal Fast & Light APK
-        run: flutter build apk --release --tree-shake-icons --obfuscate --split-debug-info=build/app/outputs/symbols
+      - name: Build ARM64 v8a APK
+        run: flutter build apk --release --target-platform android-arm64 --tree-shake-icons
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-ultra-light
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: app-arm64-v8a-release
+          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
