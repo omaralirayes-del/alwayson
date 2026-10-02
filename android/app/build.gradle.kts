@@ -16,8 +16,8 @@ android {
     defaultConfig {
         applicationId = "com.example.online_app"
         
-        // استخدام خاصية flutter الافتراضية المستقرة
-        minSdk = flutter.minSdkVersion
+        // ضبط minSdk على 21 يضمن العمل على أندرويد 5.0 حتى أحدث إسبدار (بما فيه أندرويد 11)
+        minSdk = 21
         targetSdk = flutter.targetSdkVersion
 
         versionCode = flutter.versionCode
@@ -26,7 +26,7 @@ android {
 
     buildTypes {
         release {
-            // إيقاف R8 لمنع أخطاء Missing classes
+            // إيقاف R8 لمنع مشاكل تعارض الكلاسات المفقودة وزيادة الاستقرار
             isMinifyEnabled = false
             isShrinkResources = false
 
