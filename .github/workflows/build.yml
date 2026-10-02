@@ -1,4 +1,4 @@
-name: Build Light Flutter APK
+name: Build Lightest Universal APK
 
 on:
   push:
@@ -27,11 +27,11 @@ jobs:
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build Optimized Light APK
-        run: flutter build apk --release --tree-shake-icons
+      - name: Build Super Light Universal APK
+        run: flutter build apk --release --tree-shake-icons --obfuscate --split-debug-info=build/app/outputs/symbols
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release-apk
+          name: app-release-ultra-light
           path: build/app/outputs/flutter-apk/app-release.apk
