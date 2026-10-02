@@ -1,6 +1,5 @@
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -17,7 +16,7 @@ android {
     defaultConfig {
         applicationId = "com.example.online_app"
         
-        // تعديل minSdk إلى 21 لضمان التشغيل على الأجهزة القديمة والحديثة بدون أخطاء تحليل
+        // يضمن التشغيل على 99% من الهواتف (Android 5.0+)
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
 
@@ -27,13 +26,9 @@ android {
 
     buildTypes {
         release {
-            // تفعيل التجميع والضغط وتقليل حجم الملف المخرَج
-            isMinifyEnabled = true
-            isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            // تعطيل R8 المباشر لتفادي أخطاء Missing classes
+            isMinifyEnabled = false
+            isShrinkResources = false
 
             signingConfig = signingConfigs.getByName("debug")
         }
