@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("kotlin-android")
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -15,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.online_app"
-        
-        // ضبط minSdk على 21 يضمن العمل على أندرويد 5.0 حتى أحدث إسبدار (بما فيه أندرويد 11)
+
+        // أندرويد 5.0 وما فوق (يشمل أندرويد 11 وأحدث)
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
 
@@ -26,9 +27,9 @@ android {
 
     buildTypes {
         release {
-            // إيقاف R8 لمنع مشاكل تعارض الكلاسات المفقودة وزيادة الاستقرار
-            isMinifyEnabled = false
-            isShrinkResources = false
+            // تقليل الحجم. لو التطبيق بدأ يقفل، غيّر الاتنين لـ false
+            isMinifyEnabled = true
+            isShrinkResources = true
 
             signingConfig = signingConfigs.getByName("debug")
         }
