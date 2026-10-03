@@ -25,14 +25,12 @@ android {
         versionName = flutter.versionName
     }
 
-    buildTypes {
-        release {
-            // تقليل الحجم. لو التطبيق بدأ يقفل، غيّر الاتنين لـ false
-            isMinifyEnabled = true
-            isShrinkResources = true
+   buildTypes {
+    release {
+        isMinifyEnabled = false
+        isShrinkResources = false
 
-            signingConfig = signingConfigs.getByName("debug")
-        }
+        signingConfig = signingConfigs.getByName("debug")
     }
 }
 
