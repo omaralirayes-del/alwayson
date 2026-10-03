@@ -1,4 +1,4 @@
-name: Build Guaranteed Universal Light APK
+name: Build Light Universal APK
 
 on:
   push:
@@ -23,15 +23,28 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          cache: true
 
       - name: Install Dependencies
         run: flutter pub get
 
-      - name: Build Universal Release APK
-        run: flutter build apk --release --tree-shake-icons
+      - name: Build Light APK (ARM 32 + 64)
+        run: >
+          flutter build apk --release
+          --target-platform android-arm,android-arm64
+          --obfuscate
+          --split-debug-info=build/debug-info
+          --tree-shake-icons
+
+      - name: Show APK Info
+        run: |
+          APK=build/app/outputs/flutter-apk/app-release.apk
+          ls -lh $APK
+          BT=$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
+          $ANDROID_HOME/build-tools/$BT/aapt dump badging $APK | grep -E "sdkVersion|package"
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-universal-release
+          name: app-release
           path: build/app/outputs/flutter-apk/app-release.apk
