@@ -1,9 +1,10 @@
-name: Build Light APKs (v7a + v8a)
+name: Build Android APK
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 jobs:
   build:
@@ -13,7 +14,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
@@ -22,38 +23,18 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.x'
           channel: 'stable'
           cache: true
 
-      - name: Install Dependencies
+      - name: Get Dependencies
         run: flutter pub get
 
-      - name: Build Split APKs (v7a + v8a)
-        run: >
-          flutter build apk --release
-          --split-per-abi
-          --target-platform android-arm,android-arm64
-          --obfuscate
-          --split-debug-info=build/debug-info
-          --tree-shake-icons
+      - name: Build APK
+        run: flutter build apk --split-per-abi --obfuscate --split-debug-info=build/app/outputs/symbols
 
-      - name: Show APK Info
-        run: |
-          ls -lh build/app/outputs/flutter-apk/*.apk
-          BT=$(ls $ANDROID_HOME/build-tools | sort -V | tail -1)
-          for APK in build/app/outputs/flutter-apk/*-release.apk; do
-            echo "=== $APK ==="
-            $ANDROID_HOME/build-tools/$BT/aapt dump badging $APK | grep -E "sdkVersion|native-code"
-          done
-
-      - name: Upload arm64-v8a APK
+      - name: Upload APK Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: app-arm64-v8a-release
-          path: build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
-
-      - name: Upload armeabi-v7a APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-armeabi-v7a-release
-          path: build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+          name: release-apks
+          path: build/app/outputs/flutter-apk/*.apk
