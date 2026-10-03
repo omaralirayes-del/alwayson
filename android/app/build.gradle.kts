@@ -16,21 +16,18 @@ android {
 
     defaultConfig {
         applicationId = "com.example.online_app"
-
-        // أندرويد 5.0 وما فوق (يشمل أندرويد 11 وأحدث)
         minSdk = 21
         targetSdk = flutter.targetSdkVersion
-
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
 
-   buildTypes {
-    release {
-        isMinifyEnabled = false
-        isShrinkResources = false
-
-        signingConfig = signingConfigs.getByName("debug")
+    buildTypes {
+        release {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 }
 
